@@ -6,8 +6,7 @@
     "useIgnoreFile": false
   },
   "files": {
-    "ignoreUnknown": false,
-    "ignore": ["src/app/styles/globals.css"]
+    "ignoreUnknown": false
   },
   "formatter": {
     "enabled": true,
@@ -33,8 +32,15 @@
           "level": "error",
           "fix": "safe",
           "options": {
-            "attributes": ["classList"],
-            "functions": ["clsx", "cva", "tw", "cn"]
+            "attributes": [
+              "classList"
+            ],
+            "functions": [
+              "clsx",
+              "cva",
+              "tw",
+              "cn"
+            ]
           }
         }
       },
