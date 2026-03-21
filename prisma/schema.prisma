@@ -1,0 +1,170 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+// Tabelas de Autenticação
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  emailVerified DateTime?
+  image         String?
+  inactive      DateTime?
+  role          Role            @default(MEMBER)
+  accounts      Account[]
+  sessions      Session[]
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+  @@map("verification_tokens")
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
+  @@map("authenticators")
+}
+
+// Tabelas do Core da Aplicação
+model City {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  isThirst  Boolean  @default(false) @map("is_thirst")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  companies Company[]
+
+  @@map("cities")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String // Ex: Saúde, Alimentação, Educação
+  slug      String   @unique // Ex: saude, alimentacao, educacao
+  icon      String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  companies Company[]
+
+  @@map("categories")
+}
+
+model Company {
+  id            String  @id @default(cuid())
+  name          String
+  responsible   String?
+  cnpj          String  @unique
+  slug          String  @unique
+  description   String  @db.Text
+  logoUrl       String? @map("logo_url")
+  publicImageId String? @unique @map("public_image_id")
+
+  // Contato
+  phone     String?
+  whatsapp  String // Número do WhatsApp (obrigatório)
+  email     String
+  instagram String
+
+  // Endereço
+  address      String
+  neighborhood String
+  zipCode      String @map("zip_code")
+
+  // Benefícios
+  discount String // Ex: 10% de desconto
+  benefits String @db.Text // Descrição detalhada dos benefícios
+
+  // Controle
+  contractStart DateTime? @map("contract_start")
+  contractEnd   DateTime? @map("contract_end")
+  active        Boolean   @default(true)
+  featured      Boolean   @default(false) // Empresas em destaque
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Visitantes
+  visitors Int @default(0)
+
+  // Relações
+  city       City     @relation(fields: [cityId], references: [id])
+  cityId     String   @map("city_id")
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String   @map("category_id")
+
+  @@index([cityId])
+  @@index([categoryId])
+  @@index([active])
+  @@map("companies")
+}
