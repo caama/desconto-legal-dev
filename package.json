@@ -17,6 +17,9 @@
     "format": "biome format --write",
     "prisma:dev": "pnpm prisma migrate dev && pnpm prisma generate"
   },
+  "engines": {
+    "node": ">=20.19.0 <21"
+  },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
     "@bprogress/next": "^3.2.12",
