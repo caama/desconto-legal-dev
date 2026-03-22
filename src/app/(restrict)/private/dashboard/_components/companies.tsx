@@ -71,8 +71,8 @@ export function Companies() {
   }
 
   return (
-    <main className="mx-auto max-w-7xl">
-      <Card className="mx-auto mt-8 lg:max-w-7xl">
+    <main className="mx-auto">
+      <Card className="mx-auto mt-8">
         <CardHeader>
           <CardTitle>Gerenciamento de Empresas</CardTitle>
           <CardDescription>Gerencie todos as empresas do sistema</CardDescription>
