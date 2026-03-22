@@ -64,8 +64,8 @@ export function UserContent() {
   }
 
   return (
-    <main className="mx-auto max-w-7xl">
-      <Card className="mx-auto mt-8 lg:max-w-7xl">
+    <main className="mx-auto">
+      <Card className="mx-auto mt-8">
         <CardHeader>
           <CardTitle>Gerenciamento de Usuários</CardTitle>
           <CardDescription>Gerencie todos os usuários do sistema</CardDescription>
