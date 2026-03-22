@@ -105,7 +105,8 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
 
           <Button
             variant="ghost"
-            className="group flex items-center gap-2 font-bold text-muted hover:bg-transparent hover:text-muted md:text-base"
+            type="button"
+            className="group ml-auto flex items-center gap-2 font-bold text-muted hover:bg-transparent hover:text-muted sm:ml-0 md:text-base"
             onClick={() => router.back()}
           >
             <ArrowLeft className="group-hover:-translate-x-1 size-4 text-muted transition-transform duration-200" />
