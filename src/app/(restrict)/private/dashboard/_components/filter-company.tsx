@@ -66,7 +66,7 @@ export function FilterCompanies() {
   const { data } = useQuery({
     queryKey: ['cities', name],
     queryFn: async () => {
-      const response = await API.get<CityProps>('/api/cities/get-all-cities', {
+      const response = await API.get<CityProps>('/api/cities/fetch-all-cities', {
         params: {
           name,
         },
