@@ -58,7 +58,7 @@ export function CompanyCard({ company }: CompanyCardProps) {
 
           {company.discount && (
             <ShinyButton className="mt-auto w-full rounded-lg bg-sky-600/10 p-3 text-center">
-              <p className="font-semibold text-sky-700/90">{company.discount}% de desconto</p>
+              <p className="font-semibold text-sky-700/90">{company.discount}</p>
             </ShinyButton>
           )}
 
