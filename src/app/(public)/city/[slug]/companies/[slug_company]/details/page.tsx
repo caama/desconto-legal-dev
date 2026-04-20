@@ -19,22 +19,24 @@ export const metadata: Metadata = {
 
 type CompanyDetailsPageProps = {
   params: Promise<{
+    slug: string
     slug_company: string
   }>
 }
 
 export default async function CompanyDetailsPage({ params }: CompanyDetailsPageProps) {
-  const { slug_company } = await params
+  const { slug_company, slug: citySlug } = await params
 
   const company = await getCompanyBySlug({
     slug: slug_company,
+    citySlug,
   })
 
   if (!company || !company.active) {
     notFound()
   }
 
-  const sharedUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/city/${company.city.slug}/companies/${company.slug}`
+  const sharedUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/city/${company.city.slug}/companies/${company.slug}/details`
 
   return (
     <div className="min-h-screen bg-primary/5">
