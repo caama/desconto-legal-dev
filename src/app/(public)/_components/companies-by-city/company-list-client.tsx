@@ -4,11 +4,13 @@ import { Building2, Search } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import queryString from 'query-string'
 import { useEffect, useState } from 'react'
+import { CategoriesListSkeleton } from '@/app/(restrict)/private/dashboard/category/_components/categories-skeleton'
 import { Input } from '@/components/ui/input'
 import { useDebounce } from '@/hooks/use-debounce'
 import type { CompanyWithRelations } from '../../_dal/get-companies-by-city'
 import { CategoriesList } from './categories-list'
 import { CompanyCard } from './company-card'
+import { CompanyCardSkeleton } from './company-card-skeleton'
 
 type CompanyListClientProps = {
   companies: CompanyWithRelations[]
@@ -20,9 +22,10 @@ type CompanyListClientProps = {
       companies: number
     }
   }[]
+  isLoading?: boolean
 }
 
-export function CompanyListClient({ companies, categories }: CompanyListClientProps) {
+export function CompanyListClient({ companies, categories, isLoading }: CompanyListClientProps) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -73,17 +76,27 @@ export function CompanyListClient({ companies, categories }: CompanyListClientPr
           <p className="font-medium text-muted-foreground text-sm">Filtrar por categoria:</p>
         </div>
 
-        <CategoriesList categories={categories} />
+        {isLoading ? <CategoriesListSkeleton /> : <CategoriesList categories={categories} />}
       </div>
 
-      {companies.length === 0 ? (
+      {isLoading && (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <CompanyCardSkeleton key={i} />
+          ))}
+        </div>
+      )}
+
+      {!isLoading && companies.length === 0 && (
         <div className="flex flex-col items-center justify-center rounded-lg border border-gray-300 border-dashed p-10 text-center text-gray-600">
           <Building2 className="mb-4 h-12 w-12 text-gray-400" />
           <h3 className="font-semibold text-gray-700 text-lg">Nenhuma empresa localizada</h3>
 
           <p className="mt-2 max-w-md text-gray-500 text-sm">Verifique o nome ou a categoria selecionada e tente novamente.</p>
         </div>
-      ) : (
+      )}
+
+      {!isLoading && companies.length > 0 && (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {companies.map(company => (
             <CompanyCard key={company.id} company={company} />
