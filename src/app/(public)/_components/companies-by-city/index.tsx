@@ -22,7 +22,7 @@ type CompaniesByCityProps = {
 }
 
 export function CompaniesByCityContent({ city, query, categories: rawCategories }: CompaniesByCityProps) {
-  const [{ data: companies }, { data: categories }] = useQueries({
+  const [{ data: companies, isPending: isPendingCompanies }, { data: categories }] = useQueries({
     queries: [
       {
         queryKey: ['companies-by-city', city.id, query, rawCategories],
@@ -81,7 +81,7 @@ export function CompaniesByCityContent({ city, query, categories: rawCategories 
         </div>
 
         {/* Client Component for Filtering */}
-        <CompanyListClient companies={companies ?? []} categories={categories ?? []} />
+        <CompanyListClient companies={companies ?? []} categories={categories ?? []} isLoading={isPendingCompanies} />
       </section>
     </div>
   )

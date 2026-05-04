@@ -8,8 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { API } from '@/lib/axios'
-import { PaginationCities } from '../../city/_components/pagination-cities'
-import { CategoriesSkeleton } from './categories-skeleton'
+import { CategoriesListSkeleton } from './categories-skeleton'
 import { FilterCategories } from './filter-categories'
 import { NewCategory } from './new-category'
 import { PaginationCategories } from './pagination-categories'
@@ -99,7 +98,7 @@ export function CategoriesContent() {
               </TableHeader>
 
               <TableBody>
-                {isLoading && <CategoriesSkeleton />}
+                {isLoading && <CategoriesListSkeleton />}
 
                 {data &&
                   data.categories.map(category => (
