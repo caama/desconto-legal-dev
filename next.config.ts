@@ -17,8 +17,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn-descontolegal-dev.caama.org.br',
-      }
+      },
     ],
+    unoptimized: true,
+    deviceSizes: [640, 828, 1080],
     qualities: [50, 75, 100],
   },
 }
