@@ -1,5 +1,6 @@
 import './styles/globals.css'
 
+import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
 import { Toaster } from 'sonner'
 import { ProgressProviderWrapper } from '@/components/app/progress-provider-wrapper'
@@ -35,6 +36,7 @@ export default function RootLayout({
           <ProgressProviderWrapper>
             <Toaster richColors position="top-right" />
             {children}
+            <Analytics />
           </ProgressProviderWrapper>
         </SessionAuthProvider>
       </body>
