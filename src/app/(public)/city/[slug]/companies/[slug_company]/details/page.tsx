@@ -111,12 +111,12 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
               {/* Discount Banner */}
               {company.discount && (
                 <div className="overflow-hidden rounded-2xl border border-emerald-200 bg-linear-to-r from-emerald-50 to-emerald-50 p-6 shadow-xl">
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-center gap-4">
                     <div className="rounded-xl bg-linear-to-br from-emerald-500 to-emerald-600 p-3 shadow-lg">
                       <Gift className="h-6 w-6 text-white" />
                     </div>
                     <div>
-                      <p className="font-medium text-emerald-600/70 text-sm">Exclusivo para Advogados Associados e Dependentes</p>
+                      {/* <p className="font-medium text-emerald-600/70 text-sm">Exclusivo para Advogados Associados e Dependentes</p> */}
                       <p className="mt-1 font-bold text-emerald-600 text-xl">{company.discount}</p>
                     </div>
                   </div>
